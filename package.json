@@ -29,6 +29,6 @@
   "license": "gpl-3.0",
   "dependencies": {
     "node-fetch": "^2.3.0",
-    "qs-stringify": "^1.2.1"
+    "qs": "^6.11.0"
   }
 }

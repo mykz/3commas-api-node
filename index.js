@@ -1,9 +1,10 @@
 "use strict";
-const stringify = require("qs-stringify");
+const { stringify } = require("qs");
 const crypto = require("crypto");
 const fetch = require("node-fetch");
 
 const API_URL = "https://api.3commas.io";
+const qsOptions = { arrayFormat: "brackets" };
 
 class threeCommasAPI {
   constructor(opts = {}) {
@@ -26,19 +27,22 @@ class threeCommasAPI {
       return new Error("missing api key or secret");
     }
 
-    const sig = this.generateSignature(path, stringify(params));
+    const sig = this.generateSignature(path, stringify(params, qsOptions));
 
     try {
-      let response = await fetch(`${this._url}${path}${stringify(params)}`, {
-        method: method,
-        timeout: 30000,
-        agent: "",
-        headers: {
-          APIKEY: this._apiKey,
-          Signature: sig,
-          "Forced-Mode": this._forcedMode,
-        },
-      });
+      let response = await fetch(
+        `${this._url}${path}${stringify(params, qsOptions)}`,
+        {
+          method: method,
+          timeout: 30000,
+          agent: "",
+          headers: {
+            APIKEY: this._apiKey,
+            Signature: sig,
+            "Forced-Mode": this._forcedMode,
+          },
+        }
+      );
 
       return await response.json();
     } catch (e) {
