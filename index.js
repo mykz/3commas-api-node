@@ -46,7 +46,7 @@ class threeCommasAPI {
 
       return await response.json();
     } catch (e) {
-      console.log(e);
+      //console.log(e);
       return false;
     }
   }
